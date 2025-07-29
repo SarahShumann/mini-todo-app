@@ -4,12 +4,13 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "dev": "vite",
     "build": "vite build",
     "lint": "eslint .",
     "preview": "vite preview",
+    "test:e2e": "start-server-and-test dev http://localhost:5173 cypress:run",
     "cypress:run": "cypress run",
-     "test:e2e": "start-server-and-test dev http://localhost:5173 cypress:run"
+    "dev": "vite",
+    "coverage:report": "nyc report --reporter=html"
   },
   "dependencies": {
     "axios": "^1.11.0",
@@ -17,6 +18,7 @@
     "react-dom": "^19.1.0"
   },
   "devDependencies": {
+    "@cypress/code-coverage": "^3.14.5",
     "@eslint/js": "^9.30.1",
     "@types/react": "^19.1.8",
     "@types/react-dom": "^19.1.6",
@@ -27,9 +29,12 @@
     "eslint-plugin-react-hooks": "^5.2.0",
     "eslint-plugin-react-refresh": "^0.4.20",
     "globals": "^16.3.0",
+    "istanbul-lib-coverage": "^3.2.2",
+    "nyc": "^17.1.0",
     "postcss": "^8.5.6",
     "start-server-and-test": "^2.0.12",
     "tailwindcss": "^3.4.17",
-    "vite": "^7.0.4"
+    "vite": "^7.0.4",
+    "vite-plugin-istanbul": "^7.1.0"
   }
 }

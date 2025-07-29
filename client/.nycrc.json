@@ -1,0 +1,4 @@
+{
+  "reporter": ["text-summary", "html"],
+  "include": ["src/**/*.js", "src/**/*.jsx"]
+}
