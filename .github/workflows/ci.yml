@@ -55,22 +55,7 @@ jobs:
       - name: Install frontend dependencies
         run: npm install
         working-directory: ./client
-
-      - name: Install wait-on
-        run: npm install -g wait-on
-
-      - name: Start backend server
-        run: |
-          nohup node ./server/index.js > backend.log 2>&1 &
-          sleep 3
-
-      - name: Start frontend dev server
-        run: |
-          nohup npm run dev --prefix ./client > frontend.log 2>&1 &
-
-      - name: Wait for frontend to be ready
-        run: wait-on http://localhost:5173
-
-      - name: Run Cypress tests
+    
+      - name: Run Cypress tests via start-server-and-test
         run: npm run test:e2e
         working-directory: ./client
