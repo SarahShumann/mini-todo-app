@@ -34,38 +34,42 @@ jobs:
           name: backend-coverage-report
           path: ./server/coverage
 
-  frontend-tests:
-    name: Run Frontend UI Tests
-    runs-on: ubuntu-latest
-    needs: backend-tests   
+ frontend-tests:
+  name: Run Frontend UI Tests
+  runs-on: ubuntu-latest
+  needs: backend-tests   
 
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v3
+  steps:
+    - name: Checkout code
+      uses: actions/checkout@v3
 
-      - name: Setup Node.js
-        uses: actions/setup-node@v3
-        with:
-          node-version: 18
+    - name: Setup Node.js
+      uses: actions/setup-node@v3
+      with:
+        node-version: 18
 
-      - name: Install backend dependencies (needed to start backend server)
-        run: npm install
-        working-directory: ./server
+    - name: Install backend dependencies
+      run: npm install
+      working-directory: ./server
 
-      - name: Install frontend dependencies
-        run: npm install
-        working-directory: ./client
+    - name: Install frontend dependencies
+      run: npm install
+      working-directory: ./client
 
-      - name: Start backend server
-        run: |
-          nohup node ./server/index.js &
-          sleep 5  # wait for server to start
+    - name: Install wait-on
+      run: npm install -g wait-on
 
-      - name: Start frontend dev server
-        run: |
-          nohup npm run dev --prefix ./client &
-          sleep 10  # wait for frontend to start
+    - name: Start backend server
+      run: |
+        nohup node ./server/index.js > backend.log 2>&1 &
+    
+    - name: Start frontend server
+      run: |
+        nohup npm run dev --prefix ./client > frontend.log 2>&1 &
 
-      - name: Run Cypress tests
-        run: npm run cypress:run
-        working-directory: ./client
+    - name: Wait for frontend to be ready
+      run: wait-on http://localhost:5173
+
+    - name: Run Cypress tests
+      run: npm run test:e2e
+      working-directory: ./client
