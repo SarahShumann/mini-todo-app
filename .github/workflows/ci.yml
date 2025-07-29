@@ -62,8 +62,9 @@ jobs:
       - name: Start backend server
         run: |
           nohup node ./server/index.js > backend.log 2>&1 &
-      
-      - name: Start frontend server
+          sleep 3
+
+      - name: Start frontend dev server
         run: |
           nohup npm run dev --prefix ./client > frontend.log 2>&1 &
 
